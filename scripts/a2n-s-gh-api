@@ -31,7 +31,7 @@ main () {
     pull_from_api
     if [ "$(get_nb_notifications)" -eq 0 ];
     then
-        dunstify "$DUNST_HEADER" "no notifications for now..."
+        dunstify "$DUNST_HEADER" "no notifications for now..." --urgency low
     else
         readarray -t titles < <(get_titles)
         readarray -t repos < <(get_repos)
@@ -39,10 +39,11 @@ main () {
         readarray -t issues < <(get_issues)
         for ((i=0; i<"${#repos[@]}"; i++));
         do
-            dunstify "${users[$i]}/${repos[$i]}: ${issues[$i]}" "\n${titles[$i]}"
+            dunstify "${users[$i]}/${repos[$i]}: ${issues[$i]}" "\n${titles[$i]}" --urgency low --timeout 0
         done
     fi
 }
 
 
 main "$@"
+exit 0
